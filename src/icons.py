@@ -413,6 +413,45 @@ def empty_person():
     c = Canvas(); _person(c); return c
 
 
+def people():
+    """Two figures, the back one smaller and offset -- Search People, Images."""
+    c = Canvas()
+    _person(c, cx=344, cy=176, r=56)
+    # the front figure hides what is behind it: a gap round its head, and everything under its shoulders
+    _punch(c, 214, 262, 96)
+    _punch(c, 214, 262 + 250, 198)
+    _person(c, cx=214, cy=262, r=74)
+    return c
+
+
+def tv_anime():
+    """The TV with the anime sparkle on screen -- Search TV Show & Anime."""
+    c = Canvas(); _tv_body(c)
+    c.sparkle(256, 238, 84)
+    return c
+
+
+def information():
+    c = Canvas(); c.circle(256, 256, 180, w=W)
+    c.dot(256, 168, 24)
+    c.path([(256, 236), (256, 360)], w=W)
+    return c
+
+
+def updates():
+    """Two chasing arrows round a circle -- the updater rows (the add-on asks for 'github')."""
+    # Pillow strokes an arc INWARD from its box, so the line's centre is r - W/2: tips and the tail caps go there
+    # (Canvas.arc's own caps sit at r, half a stroke outside).
+    c, r = Canvas(), 170
+    mid = r - W / 2.0
+    at = lambda a: (256 + mid * math.cos(math.radians(a)), 256 + mid * math.sin(math.radians(a)))
+    for a0, a1 in ((200, 330), (20, 150)):
+        c.arc(256, 256, r, a0, a1, w=W, caps=False)
+        c.dot(*at(a0), W / 2.0)
+        _arrow(c, at(a1), a1 + 90, size=60)   # clockwise: the tangent at a1 points a1 + 90
+    return c
+
+
 def because_you_watched():
     c = Canvas(); _eye(c, 240, 240, 176, 100); c.sparkle(408, 400, 66); return c
 
@@ -547,6 +586,7 @@ ICONS = {
         'empty_person': empty_person, 'because_you_watched': because_you_watched,
         'oscar_winners': oscar_winners, 'certifications': certifications,
         'audio': audio, 'fenlight': fenlight,
+        'people': people, 'tv_anime': tv_anime, 'information': information, 'github': updates,
         'bad_language': bad_language, 'drugs_alcohol': drugs_alcohol, 'horror': horror,
         'sex_nudity': sex_nudity, 'violence': violence,
         # service letter-marks
