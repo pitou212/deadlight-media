@@ -27,6 +27,7 @@ https://raw.githubusercontent.com/pitou212/deadlight-media/main/packages/media/<
 | `packages/media/icons`   | 62 | menu rows, service entries, content-warning flags |
 | `packages/media/flags`   |  4 | quality badges (4K / 1080 / 720 / SD) |
 | `packages/media/results` |  3 | results-window layout glyphs |
+| `packages/media/network_icons` | 75 | TV Shows > Networks logos, named by the ids in DeadLight's `meta_lists.networks()` (copied from the imgur images those ids name) |
 
 ## Design
 
