@@ -28,6 +28,7 @@ https://raw.githubusercontent.com/pitou212/deadlight-media/main/packages/media/<
 | `packages/media/flags`   |  4 | quality badges (4K / 1080 / 720 / SD) |
 | `packages/media/results` |  3 | results-window layout glyphs |
 | `packages/media/network_icons` | 75 | TV Shows > Networks logos, named by the ids in DeadLight's `meta_lists.networks()` (copied from the imgur images those ids name) |
+| `packages/media/studio_icons` | 40 | Anime > Studios logos, named by AniList studio id (`meta_lists.anime_studios()`); TMDb company logos, dark ones recoloured white for a dark background |
 
 ## Design
 
@@ -56,6 +57,6 @@ build output.
 
 ## Not included
 
-`network_icons/` (TV network logos) and `rpdb_posters/` (RatingPosterDB sample posters)
-are third-party images, not part of this set. They were already 404ing upstream, so
-nothing regresses by their absence.
+`rpdb_posters/` (RatingPosterDB sample posters) is third-party and not part of this set.
+`network_icons/` and `studio_icons/` are third-party logos too, copied here so DeadLight does
+not depend on the hosts they came from (see the table above).
