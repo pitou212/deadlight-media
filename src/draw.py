@@ -32,6 +32,15 @@ class Canvas:
         self.d = ImageDraw.Draw(self.img)
         self.color = color + (255,)
 
+    def erase(self):
+        """`with c.erase():` -- everything drawn inside clears to transparent (cut-outs in a solid shape). ImageDraw
+        writes the fill value as is, so a (0,0,0,0) fill replaces the pixels instead of blending over them."""
+        canvas, prev = self, self.color
+        class _Erase:
+            def __enter__(self): canvas.color = (0, 0, 0, 0)
+            def __exit__(self, *exc): canvas.color = prev
+        return _Erase()
+
     # ---- primitives (design-space coords) ----
     def _s(self, v):
         return v * SS
@@ -126,17 +135,3 @@ class Canvas:
         out = self.img.resize((SIZE, SIZE), Image.LANCZOS)
         out.save(path)
         return out
-
-
-def badge_text(label, size=None, font='black', spacing=0, pad=None):
-    """A rounded-rect badge with a letterform inside -- used for third-party service
-    names and quality flags. Deliberately a letter badge rather than an imitation of
-    someone else's logo: approximating a brand mark would be worse than naming it."""
-    c = Canvas()
-    x0, y0, x1, y1 = 40, 128, 472, 384
-    c.rrect(x0, y0, x1, y1, 56, w=W)
-    n = len(label)
-    if size is None:
-        size = {1: 190, 2: 160, 3: 118, 4: 92, 5: 76}.get(n, 68)
-    c.text(label, (x0 + x1) / 2.0, (y0 + y1) / 2.0 - 4, size, font=font, spacing=spacing)
-    return c

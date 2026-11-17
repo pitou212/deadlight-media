@@ -25,7 +25,7 @@ https://raw.githubusercontent.com/pitou212/deadlight-media/main/packages/media/<
 | Folder | Count | Used for |
 |---|---|---|
 | `packages/media/icons`   | 125 | menu rows, service entries, content-warning flags, genre menus (`genre_*`) — teal |
-| `packages/media/icons_white` | 125 | the same icons in white; **this is the folder DeadLight loads**. `python icons.py` writes the white copy of every glyph it defines (same alpha, white RGB); 28 older icons here have no glyph in `icons.py` and were whitened once by hand |
+| `packages/media/icons_white` | 125 | the same icons in white; **this is the folder DeadLight loads**. `python icons.py` writes the white copy of every glyph (same alpha, white RGB) |
 | `packages/media/flags`   |  4 | quality badges (4K / 1080 / 720 / SD) |
 | `packages/media/results` |  3 | results-window layout glyphs |
 | `packages/media/network_icons` | 75 | TV Shows > Networks logos, named by the ids in DeadLight's `meta_lists.networks()` (copied from the imgur images those ids name) |
@@ -37,10 +37,12 @@ One coherent system, unlike the mixed clipart it replaces.
 
 - 512×512 PNG, transparent ground — matching what the add-on and skin expect
 - Accent `#4CD8D0`, sampled from the DeadLight add-on icon
-- Stroked geometry, round caps and joins, 34px stroke in the 512 design space
+- **Solid pictograms**: filled silhouettes with cut-out details, thin secondary lines (antennae, legs,
+  handles), the glyph kept to about 60% of the canvas -- the look of the classic Fen Light set, all of
+  it drawn here, nothing copied from it
 - Drawn at 4× and downsampled (LANCZOS), which is what keeps curves and diagonals clean
 
-Third-party services (Trakt, TMDB, MDBList, Real-Debrid, …) get **letter badges**, not
+Third-party services (Trakt, TMDB, MDBList, Real-Debrid, …) get **solid letter badges**, not
 imitations of their marks. Approximating someone else's logo would be worse than plainly
 naming it, and the badge shape keeps the set consistent.
 
@@ -49,10 +51,11 @@ naming it, and the badge shape keeps the set consistent.
 Everything here is generated, not hand-drawn:
 
 ```
-cd src && python icons.py      # writes ./out/{icons,flags,results}
+cd src && python icons.py      # writes ./out/{icons,icons_white,flags,results}
 ```
 
-Requires Pillow. `draw.py` is the drawing DSL; `icons.py` defines every glyph.
+Requires Pillow. `draw.py` is the drawing DSL (`Canvas.erase()` cuts the details out of a solid
+shape); `solid.py` draws every glyph; `icons.py` is the registry and the build.
 To change a glyph, edit its function and re-run — do not hand-edit the PNGs, they are
 build output.
 
