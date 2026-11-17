@@ -794,6 +794,102 @@ def genre_talk():
     return c
 
 
+# AniList's anime genres (DeadLight anilist_api.ANILIST_GENRES) that no TMDb genre covers.
+def genre_ecchi():
+    """Blushing face: winking eyes, hatched cheeks."""
+    c = Canvas()
+    c.circle(256, 256, 184, w=W)
+    _curve(c, 196, 228, 30, 200, 340, w=26)
+    c.path([(292, 212), (338, 228), (292, 244)], w=24)
+    for cx in (164, 348):
+        for dx in (-26, 0, 26):
+            c.path([(cx + dx - 8, 312), (cx + dx + 8, 284)], w=16)
+    _curve(c, 256, 300, 40, 30, 150, w=24)
+    return c
+
+
+def genre_hentai():
+    """18+ in a ring."""
+    c = Canvas()
+    c.circle(256, 256, 184, w=W)
+    c.text('18+', 256, 252, 150, font='black')
+    return c
+
+
+def genre_mahou_shoujo():
+    """Magic wand: star on a staff, with sparkles."""
+    c = Canvas()
+    c.path([(108, 420), (262, 266)], w=W)
+    star = []
+    for i in range(10):
+        a = math.radians(-90 + i * 36)
+        r = 104 if i % 2 == 0 else 46
+        star.append((320 + r * math.cos(a), 206 + r * math.sin(a)))
+    c.poly(star, fill=False, w=26)
+    c.sparkle(140, 140, 46)
+    c.sparkle(424, 376, 36)
+    return c
+
+
+def genre_mecha():
+    """Robot head: helmet, visor, antenna, jaw vents."""
+    c = Canvas()
+    c.rrect(116, 150, 396, 404, 46, w=W)
+    c.rrect(160, 214, 352, 278, 24, fill=True)
+    c.path([(256, 150), (256, 88)], w=W)
+    c.dot(256, 76, 26)
+    for x in (204, 256, 308):
+        c.path([(x, 326), (x, 358)], w=22)
+    c.path([(116, 260), (76, 260)], w=W)
+    c.path([(396, 260), (436, 260)], w=W)
+    return c
+
+
+def genre_psychological():
+    """Spiral."""
+    c = Canvas()
+    pts, turns, n = [], 2.75, 240
+    for i in range(n + 1):
+        t = i / float(n)
+        a = 2 * math.pi * turns * t
+        r = 30 + 156 * t
+        pts.append((256 + r * math.cos(a), 256 + r * math.sin(a)))
+    c.path(pts, w=28)
+    return c
+
+
+def genre_slice_of_life():
+    """Cup of tea with steam."""
+    c = Canvas()
+    c.path([(104, 228), (128, 384), (152, 412), (312, 412), (336, 384), (360, 228)], w=W, close=True)
+    _curve(c, 376, 302, 54, -80, 80, w=W)
+    for x in (178, 254, 330):
+        c.path([(x, 172), (x - 18, 142), (x, 112), (x - 18, 82)], w=22)
+    return c
+
+
+def genre_sports():
+    """Ball with seams."""
+    c = Canvas()
+    c.circle(256, 256, 184, w=W)
+    c.path([(256, 96), (256, 416)], w=26)
+    c.path([(96, 256), (416, 256)], w=26)
+    _curve(c, 40, 256, 152, -48, 48, w=26)
+    _curve(c, 472, 256, 152, 132, 228, w=26)
+    return c
+
+
+def genre_supernatural():
+    """Ghost: domed body, wavy hem, hollow eyes."""
+    c = Canvas()
+    body = [(256 + 140 * math.cos(math.radians(a)), 212 + 140 * math.sin(math.radians(a))) for a in range(180, 361, 6)]
+    body += [(396, 420), (350, 384), (303, 420), (256, 384), (209, 420), (162, 384), (116, 420)]
+    c.path(body, w=W, close=True)
+    c.path(_ellipse_pts(208, 222, 22, 34), w=20, close=True)
+    c.path(_ellipse_pts(304, 222, 22, 34), w=20, close=True)
+    return c
+
+
 GENRES = {
     'genre_action': genre_action, 'genre_adventure': genre_adventure, 'genre_animation': genre_animation,
     'genre_comedy': genre_comedy, 'genre_crime': genre_crime, 'genre_documentary': genre_documentary,
@@ -802,6 +898,10 @@ GENRES = {
     'genre_mystery': genre_mystery, 'genre_news': genre_news, 'genre_reality': genre_reality,
     'genre_romance': genre_romance, 'genre_scifi': genre_scifi, 'genre_soap': genre_soap, 'genre_talk': genre_talk,
     'genre_thriller': genre_thriller, 'genre_war': genre_war, 'genre_western': genre_western,
+    'genre_ecchi': genre_ecchi, 'genre_hentai': genre_hentai, 'genre_mahou_shoujo': genre_mahou_shoujo,
+    'genre_mecha': genre_mecha, 'genre_psychological': genre_psychological,
+    'genre_slice_of_life': genre_slice_of_life, 'genre_sports': genre_sports,
+    'genre_supernatural': genre_supernatural,
 }
 
 
