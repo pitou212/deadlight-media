@@ -543,6 +543,268 @@ def violence():
     return c
 
 
+# ---------------------------------------------------------------- genres (Movies / TV / Anime > Genres)
+# Named as DeadLight's meta_lists.*_genres() name them (genre_<icon>); 'TV Movie' reuses genre_soap.
+def _ellipse_pts(cx, cy, rx, ry, rot=0.0, n=72):
+    ca, sa = math.cos(math.radians(rot)), math.sin(math.radians(rot))
+    pts = []
+    for i in range(n):
+        a = 2 * math.pi * i / n
+        x, y = rx * math.cos(a), ry * math.sin(a)
+        pts.append((cx + x * ca - y * sa, cy + x * sa + y * ca))
+    return pts
+
+
+def _curve(c, cx, cy, r, a0, a1, w=W, n=24):
+    """A short arc as a polyline: Pillow's thick arc() breaks into beads at small radii."""
+    c.path([(cx + r * math.cos(math.radians(a0 + (a1 - a0) * i / n)),
+             cy + r * math.sin(math.radians(a0 + (a1 - a0) * i / n))) for i in range(n + 1)], w=w)
+
+
+def _small_person(c, cx, cy, r):
+    """_person scaled: head of radius r, shoulders below it."""
+    c.circle(cx, cy, r, w=W)
+    c.arc(cx, cy + r * 3.2, r * 2.25, 203, 337, w=W, caps=False)
+
+
+def genre_action():
+    """Lightning bolt."""
+    c = Canvas()
+    c.path([(292, 72), (148, 284), (246, 284), (214, 440), (366, 214), (268, 214)], w=W, close=True)
+    return c
+
+
+def genre_adventure():
+    """Compass: ring and a tilted needle."""
+    c = Canvas()
+    c.circle(256, 256, 184, w=W)
+    a = math.radians(40)
+    tip = lambda r, ang: (256 + r * math.cos(ang), 256 + r * math.sin(ang))
+    north = [tip(122, a - math.pi / 2), tip(34, a), tip(34, a + math.pi)]
+    south = [tip(122, a + math.pi / 2), tip(34, a), tip(34, a + math.pi)]
+    c.poly(north, fill=True)
+    c.poly(south, fill=False, w=22)
+    return c
+
+
+def genre_animation():
+    """Bouncing ball with motion lines."""
+    c = Canvas()
+    c.circle(318, 262, 112, w=W)
+    _curve(c, 318, 262, 66, 200, 265, w=22)
+    for y, x0 in ((196, 96), (262, 72), (328, 96)):
+        c.path([(x0, y), (x0 + 80, y)], w=W)
+    c.path([(206, 418), (430, 418)], w=W)
+    return c
+
+
+def genre_comedy():
+    """Laughing face: closed eyes, wide smile."""
+    c = Canvas()
+    c.circle(256, 256, 184, w=W)
+    _curve(c, 196, 226, 34, 200, 340, w=26)
+    _curve(c, 316, 226, 34, 200, 340, w=26)
+    _curve(c, 256, 276, 96, 20, 160, w=W)
+    return c
+
+
+def genre_crime():
+    """Handcuffs: two cuffs joined by a link."""
+    c = Canvas()
+    c.circle(158, 318, 92, w=W)
+    c.circle(354, 318, 92, w=W)
+    c.circle(214, 176, 28, w=22)
+    c.circle(298, 176, 28, w=22)
+    c.path([(242, 176), (270, 176)], w=22)
+    c.path([(196, 200), (176, 228)], w=22)
+    c.path([(316, 200), (336, 228)], w=22)
+    return c
+
+
+def genre_documentary():
+    """Film camera: body and lens hood."""
+    c = Canvas()
+    c.rrect(64, 192, 330, 384, 30, w=W)
+    c.path([(330, 288), (444, 212), (444, 364)], w=W, close=True)
+    c.circle(132, 132, 52, w=W)
+    c.circle(258, 132, 52, w=W)
+    return c
+
+
+def genre_drama():
+    """Tragedy mask: shield face, slanted eyes, downturned mouth."""
+    c = Canvas()
+    c.path([(116, 104), (396, 104), (396, 246)], w=W)
+    c.path([(116, 104), (116, 246)], w=W)
+    c.arc(256, 246, 140, 0, 180, w=W, caps=False)
+    c.poly(_lens_pts(196, 204, 40, 16, rot=12), fill=True)
+    c.poly(_lens_pts(316, 204, 40, 16, rot=-12), fill=True)
+    _curve(c, 256, 338, 46, 215, 325, w=W)
+    return c
+
+
+def genre_family():
+    """Two adults and a child, side by side (short shoulders so the three never touch)."""
+    c = Canvas()
+    for cx, cy, r, sr, hw in ((124, 160, 46, 96, W), (388, 160, 46, 96, W), (256, 300, 34, 70, 26)):
+        c.circle(cx, cy, r, w=hw)
+        _curve(c, cx, cy + r + sr + 18, sr, 215, 325, w=W)
+    return c
+
+
+def genre_fantasy():
+    """Wizard hat with a star."""
+    c = Canvas()
+    c.path([(160, 372), (268, 92), (352, 372)], w=W)
+    c.path([(84, 388), (428, 388)], w=W)
+    c.sparkle(130, 150, 62)
+    c.sparkle(392, 210, 40)
+    return c
+
+
+def genre_history():
+    """Classical temple front."""
+    c = Canvas()
+    c.path([(84, 176), (256, 88), (428, 176)], w=W, close=True)
+    for x in (148, 256, 364):
+        c.path([(x, 222), (x, 360)], w=W)
+    c.path([(96, 404), (416, 404)], w=W)
+    return c
+
+
+def genre_music():
+    """Two beamed eighth notes."""
+    c = Canvas()
+    c.dot(170, 370, 50)
+    c.dot(354, 336, 50)
+    c.path([(206, 370), (206, 146)], w=W)
+    c.path([(390, 336), (390, 112)], w=W)
+    c.poly([(189, 129), (407, 95), (407, 151), (189, 185)], fill=True)
+    return c
+
+
+def genre_mystery():
+    """Magnifier over a question mark."""
+    c = Canvas()
+    c.circle(224, 224, 136, w=W)
+    c.path([(322, 322), (416, 416)], w=W + 8)
+    c.text('?', 224, 222, 170, font='black')
+    return c
+
+
+def genre_romance():
+    """Heart with a shine."""
+    c = Canvas()
+    c.arc(184, 214, 88, 150, 360, w=W, caps=False)
+    c.arc(328, 214, 88, 180, 30, w=W, caps=False)
+    c.path([(108, 258), (256, 410), (404, 258)], w=W)
+    c.sparkle(392, 108, 50)
+    return c
+
+
+def genre_scifi():
+    """Ringed planet."""
+    c = Canvas()
+    c.circle(256, 256, 116, w=W)
+    c.path(_ellipse_pts(256, 256, 222, 62, rot=-22), w=W - 6, close=True)
+    c.dot(410, 110, 14)
+    c.dot(96, 400, 10)
+    return c
+
+
+def genre_soap():
+    """Bubbles."""
+    c = Canvas()
+    c.circle(196, 300, 118, w=W)
+    c.circle(356, 182, 72, w=W)
+    c.circle(362, 384, 40, w=W)
+    _curve(c, 196, 300, 74, 200, 262, w=22)
+    return c
+
+
+def genre_thriller():
+    """Hourglass."""
+    c = Canvas()
+    c.path([(132, 92), (380, 92)], w=W)
+    c.path([(132, 420), (380, 420)], w=W)
+    c.path([(164, 92), (164, 150), (256, 256), (164, 362), (164, 420)], w=W)
+    c.path([(348, 92), (348, 150), (256, 256), (348, 362), (348, 420)], w=W)
+    c.poly([(210, 392), (302, 392), (256, 340)], fill=True)
+    return c
+
+
+def genre_war():
+    """Crossed swords."""
+    c = Canvas()
+    for (x0, y0, x1, y1) in ((104, 104, 380, 380), (408, 104, 132, 380)):
+        c.path([(x0, y0), (x1, y1)], w=W)
+    c.path([(318, 404), (404, 318)], w=W)
+    c.path([(108, 318), (194, 404)], w=W)
+    c.dot(418, 418, 26)
+    c.dot(94, 418, 26)
+    return c
+
+
+def genre_western():
+    """Cowboy hat."""
+    c = Canvas()
+    c.path([(56, 286), (112, 334), (256, 356), (400, 334), (456, 286)], w=W)
+    c.path([(152, 326), (172, 160), (222, 178), (256, 148), (290, 178), (340, 160), (360, 326)], w=W)
+    c.path([(166, 272), (346, 272)], w=W - 8)
+    return c
+
+
+def genre_kids():
+    """Balloon on a string."""
+    c = Canvas()
+    c.path(_ellipse_pts(256, 196, 116, 136), w=W, close=True)
+    c.poly([(256, 330), (232, 362), (280, 362)], fill=True)
+    c.path([(256, 362), (226, 404), (270, 436), (244, 470)], w=22)
+    return c
+
+
+def genre_news():
+    """Newspaper: masthead block and columns."""
+    c = Canvas()
+    c.rrect(84, 104, 428, 408, 30, w=W)
+    c.rrect(132, 150, 380, 206, 10, fill=True)
+    for y in (264, 316, 368):
+        c.path([(136, y), (236, y)], w=24)
+    c.rrect(280, 250, 380, 372, 10, w=22)
+    return c
+
+
+def genre_reality():
+    """A person framed by camera viewfinder corners."""
+    c = Canvas()
+    for (x, y, dx, dy) in ((84, 104, 1, 1), (428, 104, -1, 1), (84, 408, 1, -1), (428, 408, -1, -1)):
+        c.path([(x, y + 70 * dy), (x, y), (x + 70 * dx, y)], w=W)
+    _small_person(c, 256, 220, 58)
+    c.dot(388, 150, 16)
+    return c
+
+
+def genre_talk():
+    """Two speech bubbles."""
+    c = Canvas()
+    c.rrect(56, 88, 312, 252, 40, w=W)
+    c.path([(112, 252), (104, 312), (168, 252)], w=W)
+    c.rrect(200, 236, 456, 400, 40, w=W)
+    c.path([(400, 400), (408, 460), (344, 400)], w=W)
+    return c
+
+
+GENRES = {
+    'genre_action': genre_action, 'genre_adventure': genre_adventure, 'genre_animation': genre_animation,
+    'genre_comedy': genre_comedy, 'genre_crime': genre_crime, 'genre_documentary': genre_documentary,
+    'genre_drama': genre_drama, 'genre_family': genre_family, 'genre_fantasy': genre_fantasy,
+    'genre_history': genre_history, 'genre_horror': horror, 'genre_kids': genre_kids, 'genre_music': genre_music,
+    'genre_mystery': genre_mystery, 'genre_news': genre_news, 'genre_reality': genre_reality,
+    'genre_romance': genre_romance, 'genre_scifi': genre_scifi, 'genre_soap': genre_soap, 'genre_talk': genre_talk,
+    'genre_thriller': genre_thriller, 'genre_war': genre_war, 'genre_western': genre_western,
+}
+
+
 # ---------------------------------------------------------------- results layouts
 def results_list():
     c = Canvas()
@@ -589,6 +851,7 @@ ICONS = {
         'people': people, 'tv_anime': tv_anime, 'information': information, 'github': updates,
         'bad_language': bad_language, 'drugs_alcohol': drugs_alcohol, 'horror': horror,
         'sex_nudity': sex_nudity, 'violence': violence,
+        **GENRES,
         # service letter-marks
         'aiostreams': lambda: badge_text('AIO'),
         'alldebrid': lambda: badge_text('AD'),
@@ -615,12 +878,25 @@ ICONS = {
 }
 
 
+def whiten(img):
+    """icons_white, the folder DeadLight loads: the same alpha with white RGB (as the set was first made, b278809)."""
+    alpha = img.getchannel('A')
+    out = img.copy()
+    out.paste((255, 255, 255, 255), (0, 0) + img.size)
+    out.putalpha(alpha)
+    return out
+
+
 if __name__ == '__main__':
     n = 0
+    white = os.path.join(OUT, 'icons_white')
+    os.makedirs(white, exist_ok=True)
     for folder, items in ICONS.items():
         d = os.path.join(OUT, folder)
         os.makedirs(d, exist_ok=True)
         for name, fn in items.items():
-            fn().save(os.path.join(d, name + '.png'))
+            img = fn().save(os.path.join(d, name + '.png'))
+            if folder == 'icons':
+                whiten(img).save(os.path.join(white, name + '.png'))
             n += 1
-    print('rendered %d icons across %d folders' % (n, len(ICONS)))
+    print('rendered %d icons across %d folders (+ icons_white)' % (n, len(ICONS)))
