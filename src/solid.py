@@ -1124,7 +1124,7 @@ BATCH3 = {
 
 # ---------------------------------------------------------------- batch 4: account, library and list icons
 def solid_badge(label, size=None):
-    """a solid rounded badge with its letters cut out (OVA, ONA, SP; the service marks)"""
+    """a solid rounded badge with its letters cut out (the service marks and the quality flags)"""
     c = Canvas()
     c.rrect(64, 160, 448, 352, 40, fill=True)
     if size is None:
@@ -1340,22 +1340,6 @@ def on_hold():
     return c
 
 
-def ona():
-    return solid_badge('ONA')
-
-
-def ova():
-    return solid_badge('OVA')
-
-
-def specials():
-    return solid_badge('SP')
-
-
-def tv_shorts():
-    return solid_badge('SHORT', 74)
-
-
 def recommended():
     """heart with a sparkle"""
     c = Canvas()
@@ -1374,16 +1358,6 @@ def settings():
         with c.erase():
             c.circle(kx, y, 44, fill=True)
         c.circle(kx, y, 32, fill=True)
-    return c
-
-
-def upcoming():
-    c = Canvas()
-    x0, y0, x1, y1 = _calendar(c, 104, 130, 360, 368)
-    for row in range(2):
-        for col in range(3):
-            c.rrect(x0 + 18 + col * 62, y0 + 18 + row * 52, x0 + 58 + col * 62, y0 + 52 + row * 52, 6, fill=True)
-    _clock_badge(c, 372, 372, 64)
     return c
 
 
@@ -1436,8 +1410,7 @@ BATCH4 = {
     'account': account, 'airing_last_season': airing_last_season, 'changelog': changelog, 'clear_cache': clear_cache,
     'cloud': cloud, 'code': code, 'collection': collection, 'database': database, 'dropped': dropped,
     'history': history, 'images': images, 'keyword': keyword, 'liked_lists': liked_lists, 'link': link, 'log': log,
-    'on_hold': on_hold, 'ona': ona, 'ova': ova, 'recommended': recommended, 'settings': settings,
-    'specials': specials, 'tv_shorts': tv_shorts, 'upcoming': upcoming, 'update': update, 'upload': upload,
+    'on_hold': on_hold, 'recommended': recommended, 'settings': settings, 'update': update, 'upload': upload,
     'user_lists': user_lists, 'views': views, 'watchlist': watchlist,
 }
 

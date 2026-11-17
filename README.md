@@ -24,8 +24,8 @@ https://raw.githubusercontent.com/pitou212/deadlight-media/main/packages/media/<
 
 | Folder | Count | Used for |
 |---|---|---|
-| `packages/media/icons`   | 125 | menu rows, service entries, content-warning flags, genre menus (`genre_*`) — teal |
-| `packages/media/icons_white` | 125 | the same icons in white; **this is the folder DeadLight loads**. `python icons.py` writes the white copy of every glyph (same alpha, white RGB) |
+| `packages/media/icons`   | 120 | menu rows, service entries, content-warning flags, genre menus (`genre_*`) — teal |
+| `packages/media/icons_white` | 120 | the same icons in white; **this is the folder DeadLight loads**. `python icons.py` writes the white copy of every glyph (same alpha, white RGB) |
 | `packages/media/flags`   |  4 | quality badges (4K / 1080 / 720 / SD) |
 | `packages/media/results` |  3 | results-window layout glyphs |
 | `packages/media/network_icons` | 75 | TV Shows > Networks logos, named by the ids in DeadLight's `meta_lists.networks()` (copied from the imgur images those ids name) |
